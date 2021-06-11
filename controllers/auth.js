@@ -1,3 +1,4 @@
+const client = require('../configs/db');
 const signup = (req, res) => {
 	// {
 	// 	firstname: "First", 

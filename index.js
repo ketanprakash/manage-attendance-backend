@@ -1,14 +1,16 @@
+require('dotenv').config({path: __dirname + './env'});
 const express = require('express');
 const app = express();
 const port = process.env.PORT || 8000;
 const auth = require('./routes/auth');
-//all json data is pared on arrival
+const logger = require('./middlewares/logger');
+//all json data is parsed on arrival
 app.use(express.json());
+app.use(logger);
 
-app.get('/', (req, res) => {
-    res.status(200).send("<h1>Home page</h1>");
-    console.log("GET /");
-})
+// app.get('/', (req, res) => {
+//     res.status(200).send("<h1>Home page</h1>");
+// })
 
 app.use('/auth', auth);
 
