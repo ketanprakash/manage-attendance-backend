@@ -1,6 +1,12 @@
 const { Client } = require('pg');
+const connectionString = process.env.PG_URL;
+
 const client = new Client({
-	connectionString: `${process.env.PGURL}`
+	user: process.env.PGUSER,
+  	host: process.env.PGHOST,
+  	database: process.env.PGDATABASE,
+  	password: process.env.PGPASSWORD,
+  	port: process.env.PGPORT
 })
 
 client.connect((err) => {
