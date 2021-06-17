@@ -7,7 +7,7 @@ const verifyToken = (req, res, next) => {
 		if (err) {
 			console.log(err);
 			res.status(500).json({
-				message: "Error in decodeding the token"
+				message: "Error in decoding the token"
 			})
 		}
 		else {
