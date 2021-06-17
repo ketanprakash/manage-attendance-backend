@@ -29,7 +29,22 @@ const getSubjectData = (req, res) => {
             })
         }
         else {
-            res.status(200).json(data.rows);
+            let attendance = 0, total = 0, percentage;
+            data.rows.forEach(element => {
+                if (element.holiday == false){
+                    if (element.attendance) {
+                        attendance += 1;
+                    }
+                    total += 1;
+                }
+            });
+            percentage = attendance / total * 100;
+            res.status(200).json({
+                data: data.rows,
+                attendance, 
+                total,
+                percentage
+            });
         }
     });
 }
