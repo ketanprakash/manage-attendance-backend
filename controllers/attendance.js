@@ -34,7 +34,23 @@ const getSubjectData = (req, res) => {
     });
 }
 
-
+const editAttendanceData = (req, res) => {
+    const {attendance, holiday, date} = req.body;
+    client.query(`UPDATE attendance SET holiday = ${holiday}, attendance = ${attendance} WHERE subjectid = '${req.params.subjectid}' AND attendance_date = '${date}'`, (err, data) => {
+        if (err){
+            console.log(err);
+            res.status(500).json({
+                message: "Database Error!!"
+            })
+        }
+        else {
+            res.status(200).json({
+                message: "Updated Database"
+            });
+        }
+    });
+}
 
 module.exports.markAttendance = markAttendance;
 module.exports.getSubjectData = getSubjectData;
+module.exports.editAttendanceData = editAttendanceData;
