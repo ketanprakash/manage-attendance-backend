@@ -80,7 +80,7 @@ const signin = (req, res) => {
 							});
 						}
 						else{
-							res.json({
+							res.status(404).json({
 								message: "Password is incorrect"
 							});
 						}
