@@ -29,14 +29,15 @@ const getSubjectData = (req, res) => {
         }
         else {
             let attendance = 0, total = 0, percentage;
-            data.rows.forEach(element => {
-                if (element.holiday == false){
-                    if (element.attendance) {
+            for (i = 0; i < data.rows.length; i++){
+                if (data.rows[i].holiday == false){
+                    if (data.rows[i].attendance) {
                         attendance += 1;
                     }
                     total += 1;
                 }
-            });
+                data.rows[i].date = `${data.rows[i].attendance_date.getFullYear()}-${data.rows[i].attendance_date.getMonth() + 1}-${data.rows[i].attendance_date.getDate()}`;
+            }
             percentage = attendance / total * 100;
             res.status(200).json({
                 data: data.rows,
