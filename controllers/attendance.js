@@ -20,7 +20,7 @@ const markAttendance = (req, res) => {
 
 const getSubjectData = (req, res) => {
     const {attendance, holiday} = req.body;
-    client.query(`SELECT * FROM attendance WHERE subjectid = '${req.params.subjectid}'`, (err, data) => {
+    client.query(`SELECT * FROM attendance WHERE subjectid = '${req.params.subjectid}' ORDER BY id DESC`, (err, data) => {
         if (err){
             console.log(err);
             res.status(500).json({
@@ -50,8 +50,9 @@ const getSubjectData = (req, res) => {
 }
 
 const editAttendanceData = (req, res) => {
-    const {attendance, holiday, date} = req.body;
-    client.query(`UPDATE attendance SET holiday = ${holiday}, attendance = ${attendance} WHERE subjectid = '${req.params.subjectid}' AND attendance_date = '${date}'`, (err, data) => {
+    const {attendance, holiday, id} = req.body;
+    console.log(attendance, holiday, id);
+    client.query(`UPDATE attendance SET holiday = '${holiday}', attendance = '${attendance}' WHERE subjectid = ${req.params.subjectid} AND id = ${id}`, (err, data) => {
         if (err){
             console.log(err);
             res.status(500).json({

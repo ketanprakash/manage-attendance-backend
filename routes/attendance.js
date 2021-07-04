@@ -5,6 +5,6 @@ const router = express.Router();
 
 router.post('/markattendance/:subjectid', verifyToken, markAttendance);
 router.get('/getsubjectdata/:subjectid', verifyToken, getSubjectData);
-router.post('/editattendancedata/:subjectid', verifyToken, editAttendanceData);
+router.put('/editattendancedata/:subjectid', verifyToken, editAttendanceData);
 
 module.exports = router;
