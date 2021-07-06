@@ -60,7 +60,7 @@ const signin = (req, res) => {
 		else{
 			if (data.rows.length === 0){
 				res.status(404).json({
-					message: "username id does not exist"
+					message: "the username does not exist"
 				})
 			}
 			else{

@@ -18,6 +18,23 @@ const markAttendance = (req, res) => {
     });
 }
 
+const addAttendance = (req, res) => {
+    const {date, attendance, holiday} = req.body;
+    client.query(`INSERT INTO attendance(subjectid, holiday, attendance, attendance_date, username) VALUES (${req.params.subjectid}, ${holiday}, ${attendance}, '${date}','${req.username}')`, (err, data) => {
+        if (err){
+            console.log(err);
+            res.status(500).json({
+                message: "Database Error!!"
+            })
+        }
+        else {
+            res.status(200).json({
+                message: "Attendance Added"
+            })
+        }
+    });
+}
+
 const getSubjectData = (req, res) => {
     const {attendance, holiday} = req.body;
     client.query(`SELECT * FROM attendance WHERE subjectid = '${req.params.subjectid}' AND username = '${req.username}' ORDER BY attendance_date DESC`, (err, data) => {
@@ -68,5 +85,6 @@ const editAttendanceData = (req, res) => {
 }
 
 module.exports.markAttendance = markAttendance;
+module.exports.addAttendance = addAttendance;
 module.exports.getSubjectData = getSubjectData;
 module.exports.editAttendanceData = editAttendanceData;
