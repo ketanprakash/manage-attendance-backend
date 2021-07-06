@@ -3,7 +3,7 @@ const client = require('../configs/db');
 const markAttendance = (req, res) => {
     const {attendance, holiday} = req.body;
     const current_datetime = new Date();
-    client.query(`INSERT INTO attendance(subjectid, holiday, attendance, attendance_date) VALUES (${req.params.subjectid}, ${holiday}, ${attendance}, '${current_datetime.getFullYear()}-${current_datetime.getMonth() + 1}-${current_datetime.getDate()}')`, (err, data) => {
+    client.query(`INSERT INTO attendance(subjectid, holiday, attendance, attendance_date, username) VALUES (${req.params.subjectid}, ${holiday}, ${attendance}, '${current_datetime.getFullYear()}-${current_datetime.getMonth() + 1}-${current_datetime.getDate()}','${req.username}')`, (err, data) => {
         if (err){
             console.log(err);
             res.status(500).json({
@@ -20,7 +20,7 @@ const markAttendance = (req, res) => {
 
 const getSubjectData = (req, res) => {
     const {attendance, holiday} = req.body;
-    client.query(`SELECT * FROM attendance WHERE subjectid = '${req.params.subjectid}' ORDER BY id DESC`, (err, data) => {
+    client.query(`SELECT * FROM attendance WHERE subjectid = '${req.params.subjectid}' AND username = '${req.username}' ORDER BY attendance_date DESC`, (err, data) => {
         if (err){
             console.log(err);
             res.status(500).json({
@@ -52,7 +52,7 @@ const getSubjectData = (req, res) => {
 const editAttendanceData = (req, res) => {
     const {attendance, holiday, id} = req.body;
     console.log(attendance, holiday, id);
-    client.query(`UPDATE attendance SET holiday = '${holiday}', attendance = '${attendance}' WHERE subjectid = ${req.params.subjectid} AND id = ${id}`, (err, data) => {
+    client.query(`UPDATE attendance SET holiday = '${holiday}', attendance = '${attendance}' WHERE subjectid = ${req.params.subjectid} AND id = ${id} AND username = '${req.username}'`, (err, data) => {
         if (err){
             console.log(err);
             res.status(500).json({

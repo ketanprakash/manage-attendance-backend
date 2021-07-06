@@ -5,13 +5,13 @@ const signup = (req, res) => {
 	// {
 	// 	firstname: "First", 
 	// 	lastname: "Last",
-	// 	email: "email@something.com",
+	// 	username: "username@something.com",
 	// 	password: "password"
 	// }
-	const { firstname, lastname, email, password } = req.body;
-	console.log(firstname, lastname, email, password);
-	//check if the email already exists
-	client.query(`SELECT * FROM users WHERE email = '${email}'`, (err, data) => {
+	const { firstname, lastname, username, password } = req.body;
+	console.log(firstname, lastname, username, password);
+	//check if the username already exists
+	client.query(`SELECT * FROM users WHERE username = '${username}'`, (err, data) => {
 		if (err){
 			res.status(500).json({
 				message: "Database Error!"
@@ -26,9 +26,9 @@ const signup = (req, res) => {
 						});
 					}
 					else{
-						client.query(`INSERT INTO users(firstname, lastname, email, password) VALUES('${firstname}', '${lastname}','${email}','${hash}')`);
+						client.query(`INSERT INTO users(firstname, lastname, username, password) VALUES('${firstname}', '${lastname}','${username}','${hash}')`);
 						console.log(hash);
-						const token = jwt.sign({email: email},`${process.env.SECRET_KEY}`);
+						const token = jwt.sign({username: username},`${process.env.SECRET_KEY}`);
 						res.status(200).json({
 							message: "Successfully added user into database!",
 							token
@@ -38,7 +38,7 @@ const signup = (req, res) => {
 			}
 			else{
 				res.status(500).json({
-					message: "The email already exists"
+					message: "The username already exists"
 				})
 			}
 		}
@@ -48,9 +48,9 @@ const signup = (req, res) => {
 }
 
 const signin = (req, res) => {
-	const { email, password } = req.body;
-	console.log(email, password);
-	client.query(`SELECT * FROM users WHERE email = '${email}'`, (err, data) => {
+	const { username, password } = req.body;
+	console.log(username, password);
+	client.query(`SELECT * FROM users WHERE username = '${username}'`, (err, data) => {
 		if (err){
 			console.log(err);
 			res.status(500).json({
@@ -60,7 +60,7 @@ const signin = (req, res) => {
 		else{
 			if (data.rows.length === 0){
 				res.status(404).json({
-					message: "Email id does not exist"
+					message: "username id does not exist"
 				})
 			}
 			else{
@@ -73,7 +73,7 @@ const signin = (req, res) => {
 					}
 					else{
 						if (result){
-							const token = jwt.sign({email: email},`${process.env.SECRET_KEY}`);
+							const token = jwt.sign({username: username},`${process.env.SECRET_KEY}`);
 							res.status(200).json({
 								message: "Logged in successfully",
 								token

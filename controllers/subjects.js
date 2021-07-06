@@ -2,8 +2,8 @@ const client = require('../configs/db');
 
 const addSubject = (req, res) => {
 	const {subject} = req.body;
-	const email = req.email;
-	client.query(`INSERT INTO subjects(email, name) VALUES ('${email}', '${subject}')`, (err, data) => {
+	const username = req.username;
+	client.query(`INSERT INTO subjects(username, name) VALUES ('${username}', '${subject}')`, (err, data) => {
 		if (err){
 			console.log(err);
 			res.status(500).json({
@@ -19,8 +19,8 @@ const addSubject = (req, res) => {
 }
 
 const deleteSubject = (req, res) => {
-	const email = req.email;
-	client.query(`DELETE FROM subjects WHERE id = ${req.params.subjectid} AND email = '${email}'`, (err, data) => {
+	const username = req.username;
+	client.query(`DELETE FROM subjects WHERE id = ${req.params.subjectid} AND username = '${username}'`, (err, data) => {
 		if (err){
 			console.log(err);
 			res.status(500).json({
@@ -28,16 +28,27 @@ const deleteSubject = (req, res) => {
 			})
 		}
 		else{
-			res.status(200).json({
-				message: "Subject deleted!"
+			client.query(`DELETE FROM attendance WHERE subjectid = ${req.params.subjectid} AND username = '${username}'`, (err, data) => {
+				if (err){
+					console.log(err);
+					res.status(500).json({
+						message: "Database Error!!"
+					})
+				}
+				else{
+					res.status(200).json({
+						message: "Subject deleted!"
+					})
+				}
 			})
+			
 		}
 	})
 }
 
 const getSubjects = (req, res) => {
-	const email = req.email;
-	client.query(`SELECT * FROM subjects WHERE email = '${email}'`, (err, data) => {
+	const username = req.username;
+	client.query(`SELECT * FROM subjects WHERE username = '${username}'`, (err, data) => {
 		if (err){
 			console.log(err);
 			res.status(500).json({

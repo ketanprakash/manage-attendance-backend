@@ -11,8 +11,8 @@ const verifyToken = (req, res, next) => {
 			})
 		}
 		else {
-			console.log(decoded.email);
-			req.email = decoded.email;
+			console.log(decoded.username);
+			req.username = decoded.username;
 			next();
 		}
 	});
