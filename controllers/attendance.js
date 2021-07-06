@@ -35,6 +35,23 @@ const addAttendance = (req, res) => {
     });
 }
 
+const deleteAttendance = (req, res) => {
+    const {id} = req.body;
+    client.query(`DELETE FROM attendance WHERE id = ${id} AND subjectid = ${req.params.subjectid} AND username = '${req.username}'`, (err, data) => {
+        if (err){
+            console.log(err);
+            res.status(500).json({
+                message: "Database Error!!"
+            })
+        }
+        else {
+            res.status(200).json({
+                message: "Attendance Deleted"
+            })
+        }
+    });
+}
+
 const getSubjectData = (req, res) => {
     const {attendance, holiday} = req.body;
     client.query(`SELECT * FROM attendance WHERE subjectid = '${req.params.subjectid}' AND username = '${req.username}' ORDER BY attendance_date DESC`, (err, data) => {
@@ -86,5 +103,6 @@ const editAttendanceData = (req, res) => {
 
 module.exports.markAttendance = markAttendance;
 module.exports.addAttendance = addAttendance;
+module.exports.deleteAttendance = deleteAttendance;
 module.exports.getSubjectData = getSubjectData;
 module.exports.editAttendanceData = editAttendanceData;
