@@ -6,6 +6,7 @@ const port = process.env.PORT || 8000;
 const auth = require('./routes/auth');
 const subjects = require('./routes/subjects');
 const attendance = require('./routes/attendance');
+const timetable = require('./routes/timetable')
 const logger = require('./middlewares/logger');
 app.use(cors());
 //all json data is parsed on arrival
@@ -19,6 +20,7 @@ app.use(logger);
 app.use('/auth', auth);
 app.use('/subjects', subjects);
 app.use('/attendance', attendance);
+app.use('/timetable', timetable);
 
 app.all('*', (req, res) => {
     res.status(404).json({

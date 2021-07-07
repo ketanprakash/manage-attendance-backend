@@ -1,5 +1,5 @@
 const express = require('express');
-const { markAttendance, addAttendance, getSubjectData, editAttendanceData, deleteAttendance } = require('../controllers/attendance');
+const { addAttendance, getSubjectData, editAttendanceData, deleteAttendance } = require('../controllers/attendance');
 const { verifyToken } = require('../middlewares/verifyToken');
 const router = express.Router();
 
