@@ -1,23 +1,5 @@
 const client = require('../configs/db');
 
-const markAttendance = (req, res) => {
-    const {attendance, holiday} = req.body;
-    const current_datetime = new Date();
-    client.query(`INSERT INTO attendance(subjectid, holiday, attendance, attendance_date, username) VALUES (${req.params.subjectid}, ${holiday}, ${attendance}, '${current_datetime.getFullYear()}-${current_datetime.getMonth() + 1}-${current_datetime.getDate()}','${req.username}')`, (err, data) => {
-        if (err){
-            console.log(err);
-            res.status(500).json({
-                message: "Database Error!!"
-            })
-        }
-        else {
-            res.status(200).json({
-                message: "Attendance Marked"
-            })
-        }
-    });
-}
-
 const addAttendance = (req, res) => {
     const {date, attendance, holiday} = req.body;
     client.query(`INSERT INTO attendance(subjectid, holiday, attendance, attendance_date, username) VALUES (${req.params.subjectid}, ${holiday}, ${attendance}, '${date}','${req.username}')`, (err, data) => {
@@ -101,7 +83,6 @@ const editAttendanceData = (req, res) => {
     });
 }
 
-module.exports.markAttendance = markAttendance;
 module.exports.addAttendance = addAttendance;
 module.exports.deleteAttendance = deleteAttendance;
 module.exports.getSubjectData = getSubjectData;

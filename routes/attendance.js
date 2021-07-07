@@ -3,7 +3,6 @@ const { markAttendance, addAttendance, getSubjectData, editAttendanceData, delet
 const { verifyToken } = require('../middlewares/verifyToken');
 const router = express.Router();
 
-router.post('/markattendance/:subjectid', verifyToken, markAttendance);
 router.post('/addattendance/:subjectid', verifyToken, addAttendance)
 router.delete('/deleteattendance/:subjectid', verifyToken, deleteAttendance);
 router.get('/getsubjectdata/:subjectid', verifyToken, getSubjectData);
