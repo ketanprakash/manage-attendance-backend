@@ -1,8 +1,8 @@
 const client = require('../configs/db');
 
 const addAttendance = (req, res) => {
-    const {date, attendance, holiday} = req.body;
-    client.query(`INSERT INTO attendance(subjectid, holiday, attendance, attendance_date, username) VALUES (${req.params.subjectid}, ${holiday}, ${attendance}, '${date}','${req.username}')`, (err, data) => {
+    const {date, attendance} = req.body;
+    client.query(`INSERT INTO attendance(subjectid, attendance, attendance_date, username) VALUES (${req.params.subjectid}, '${attendance}', '${date}','${req.username}')`, (err, data) => {
         if (err){
             console.log(err);
             res.status(500).json({
@@ -35,7 +35,6 @@ const deleteAttendance = (req, res) => {
 }
 
 const getSubjectData = (req, res) => {
-    const {attendance, holiday} = req.body;
     client.query(`SELECT * FROM attendance WHERE subjectid = '${req.params.subjectid}' AND username = '${req.username}' ORDER BY attendance_date DESC`, (err, data) => {
         if (err){
             console.log(err);
@@ -45,15 +44,15 @@ const getSubjectData = (req, res) => {
         }
         else {
             let attendance = 0, total = 0, percentage;
-            for (i = 0; i < data.rows.length; i++){
-                if (data.rows[i].holiday == false){
-                    if (data.rows[i].attendance) {
-                        attendance += 1;
-                    }
+            data.rows.forEach((element) => {
+                if (element,attendance == "Present"){
+                    total += 1;
+                    attendance += 1;
+                }
+                else if (element.attendance == "Absent"){
                     total += 1;
                 }
-                data.rows[i].date = `${data.rows[i].attendance_date.getFullYear()}-${data.rows[i].attendance_date.getMonth() + 1}-${data.rows[i].attendance_date.getDate()}`;
-            }
+            });
             percentage = attendance / total * 100;
             res.status(200).json({
                 data: data.rows,
@@ -66,9 +65,9 @@ const getSubjectData = (req, res) => {
 }
 
 const editAttendanceData = (req, res) => {
-    const {attendance, holiday, id} = req.body;
-    console.log(attendance, holiday, id);
-    client.query(`UPDATE attendance SET holiday = '${holiday}', attendance = '${attendance}' WHERE subjectid = ${req.params.subjectid} AND id = ${id} AND username = '${req.username}'`, (err, data) => {
+    const {attendance, id} = req.body;
+    console.log(attendance, id);
+    client.query(`UPDATE attendance SET attendance = '${attendance}' WHERE subjectid = ${req.params.subjectid} AND id = ${id} AND username = '${req.username}'`, (err, data) => {
         if (err){
             console.log(err);
             res.status(500).json({
