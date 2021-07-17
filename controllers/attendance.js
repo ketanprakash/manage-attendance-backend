@@ -46,7 +46,7 @@ const getSubjectData = (req, res) => {
             let attendance = 0, total = 0, percentage;
             data.rows.forEach((element, index) => {
                 data.rows[index].date = `${element.attendance_date.getFullYear()}-${element.attendance_date.getMonth() + 1}-${element.attendance_date.getDate()}`
-                if (element,attendance == "Present"){
+                if (element.attendance == "Present"){
                     total += 1;
                     attendance += 1;
                 }
