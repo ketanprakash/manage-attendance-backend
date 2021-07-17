@@ -35,7 +35,7 @@ const deleteAttendance = (req, res) => {
 }
 
 const getSubjectData = (req, res) => {
-    client.query(`SELECT * FROM attendance WHERE subjectid = '${req.params.subjectid}' AND username = '${req.username}' ORDER BY attendance_date DESC`, (err, data) => {
+    client.query(`SELECT * FROM attendance WHERE subjectid = ${req.params.subjectid} AND username = '${req.username}' ORDER BY attendance_date DESC`, (err, data) => {
         if (err){
             console.log(err);
             res.status(500).json({
